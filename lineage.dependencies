@@ -1,7 +1,9 @@
 [
   {
-    "repository": "android_kernel_asus_moorefield",
+    "remote": "github",
+    "repository": "lineage-n-asus-Z00XS/android_kernel_asus_moorefield",
     "target_path": "kernel/asus/moorefield"
+    "branch": "lineage-15.1"
   },
   {
     "repository": "android_external_stlport",

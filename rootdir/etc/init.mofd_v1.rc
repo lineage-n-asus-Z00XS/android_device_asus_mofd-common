@@ -16,7 +16,9 @@ on early-init
     setprop ro.boot.min.cap 0
 
 on init
-    export LD_SHIM_LIBS /system/lib/libicuuc.so|libshim_icu.so:/system/lib/hw/camera.vendor.mofd_v1.so|libshim_camera.so:/system/bin/gpsd|libshim_gpsd.so:/system/lib/hw/sensors.mofd_v1.so|libshim_sensors.so
+    export LD_SHIM_LIBS /system/lib/libicuuc.so|libshim_icu.so:/system/lib/hw/camera.vendor.mofd_v1.so|libshim_camera.so:/system/bin/gpsd|libshim_gpsd.so:/system/lib/sensors.vendor.mofd_v1.so|libshim_sensors.so:/system/lib/libcamera_client.so|libshim_camera_parameters.so
+
+    export LD_PRELOAD libshim_gpsd.so
 
     write /sys/class/graphics/fbcon/cursor_blink 0
     mkdir /data/system/ 0770 system system
@@ -299,9 +301,10 @@ service audioserver /system/bin/audioserver
     class main
     user audioserver
     # media gid needed for /dev/fm (radio) and for /data/misc/media (tee)
-    group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct qcom_diag radio system wakelock
+    group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct system radio wakelock
     ioprio rt 4
     writepid /dev/cpuset/foreground/tasks /dev/stune/foreground/tasks
+    onrestart restart audio-hal-2-0
 
 service drm /system/bin/drmserver
     class main

@@ -27,8 +27,6 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 
-TARGET_SPECIFIC_HEADER_PATH := device/asus/mofd-common/include
-
 TARGET_DROIDBOOT_LIBS := libintel_droidboot
 
 # Adb
@@ -55,10 +53,7 @@ INTEL_VIDEO_XPROC_SHARING := true
 BOARD_GLOBAL_CFLAGS += -DCAMERA_VENDOR_L_COMPAT
 TARGET_PROVIDES_CAMERA_HAL := true
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
-
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    media.stagefright.legacyencoder=true \
-    media.stagefright.less-secure=true
+TARGET_USES_NON_TREBLE_CAMERA := true
 
 # Charger
 WITH_CM_CHARGER := false
@@ -77,7 +72,7 @@ endif
 BOARD_HARDWARE_CLASS := device/asus/mofd-common/cmhw
 
 # Healthd
-BOARD_HAL_STATIC_LIBRARIES := libhealthd.moorefield
+#BOARD_HAL_STATIC_LIBRARIES := libhealthd.moorefield
 
 # Houdini: enable ARM codegen for x86
 BUILD_ARM_FOR_X86 := true
@@ -87,18 +82,16 @@ BOARD_GFX_REV := RGX6400
 ENABLE_IMG_GRAPHICS := true
 ENABLE_MRFL_GRAPHICS := true
 INTEL_HWC_MOOREFIELD := true
-BOARD_GLOBAL_CFLAGS += -DASUS_ZENFONE2_LP_BLOBS
+BOARD_USES_PRE_ION_X86 := true
 HWUI_IMG_FBO_CACHE_OPTIM := true
 TARGET_INTEL_HWCOMPOSER_FORCE_ONLY_ONE_RGB_LAYER := true
 
 # IMG Graphics: System's VSYNC phase offsets in nanoseconds
+SF_START_GRAPHICS_ALLOCATOR_SERVICE := true
 VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
 
 BOARD_EGL_CFG := device/asus/mofd-common/configs/egl.cfg
-
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    ro.opengles.version = 196608
 
 MAX_EGL_CACHE_ENTRY_SIZE := 65536
 MAX_EGL_CACHE_SIZE := 1048576
@@ -131,7 +124,7 @@ LZMA_RAMDISK_TARGETS := recovery
 
 # Kernel cmdline
 BOARD_KERNEL_CMDLINE := init=/init pci=noearly console=logk0 loglevel=0 vmalloc=256M androidboot.hardware=mofd_v1 watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789 gpt snd_pcm.maximum_substreams=8 ptrace.ptrace_can_access=1 panic=15 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on debug_locks=0 n_gsm.mux_base_conf=\"ttyACM0,0 ttyXMM0,1\" bootboost=1'
-#BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -157,10 +150,6 @@ BOARD_CUSTOM_BOOTIMG_MK := device/asus/mofd-common/mkbootimg.mk
 
 # Video Post Processing
 TARGET_HAS_ISV := true
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    persist.intel.isv.vpp = 1 \
-    persist.intel.isv.frc = 1
-
 BOARD_GLOBAL_CFLAGS += -DGFX_BUF_EXT
 
 # Partitions
@@ -175,7 +164,7 @@ BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 TARGET_POWERHAL_VARIANT := mofd_v1
 
 # Radio
-BOARD_PROVIDES_LIBRIL := true
+#BOARD_PROVIDES_LIBRIL := true
 
 # Recovery
 #RECOVERY_VARIANT := twrp

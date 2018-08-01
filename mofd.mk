@@ -28,13 +28,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dex2oat-swap=false
 
 # Asus properties
-ADDITIONAL_DEFAULT_PROPERTIES += \
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.build.asus.sku=WW
 
 # Audio
 PRODUCT_PACKAGES += \
+    android.hardware.audio@2.0-impl \
+    android.hardware.audio.effect@2.0-impl \
     libtinycompress \
-    libtinyalsa \
     audio.a2dp.default \
     audio.r_submix.default \
     audio.usb.default
@@ -54,15 +55,26 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/asus/mofd-common/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
+# Bluetooth HAL
+PRODUCT_PACKAGES += \
+    android.hardware.bluetooth@1.0-impl
+
 PRODUCT_PROPERTY_OVERRIDES += \
     bt.hfp.WideBandSpeechEnabled=true
 
 # Camera
 PRODUCT_PACKAGES += \
     bspcapability \
+    android.hardware.camera.provider@2.4-impl \
+    camera.device@3.2-impl \
     camera.mofd_v1 \
     libshim_camera \
+    libshim_camera_parameters \
     Snap
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    media.stagefright.legacyencoder=true \
+    media.stagefright.less-secure=true
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -81,12 +93,21 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/asus/mofd-common/powervr.ini:system/etc/powervr.ini
 
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.composer@2.1-impl \
+    android.hardware.graphics.mapper@2.0-impl \
+    android.hardware.memtrack@1.0-impl
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.opengles.version = 196608
+
 # Doze
 PRODUCT_PACKAGES += \
    ZenfoneDoze
 
 # Factory reset protection
-ADDITIONAL_DEFAULT_PROPERTIES += \
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.frp.pst=/dev/block/by-name/persistent
 
 # Flip Cover App
@@ -103,14 +124,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.spid.gps.FrqPlan=FRQ_PLAN_26MHZ_2PPM \
     ro.spid.gps.RfType=GL_RF_47531_BRCM
 
-ADDITIONAL_DEFAULT_PROPERTIES += \
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.gnss.sv.status=true
 
 # Houdini (arm native bridge)
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.enable.native.bridge.exec=1
 
-ADDITIONAL_DEFAULT_PROPERTIES += ro.dalvik.vm.native.bridge=libhoudini.so
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.dalvik.vm.native.bridge=libhoudini.so
 
 # Key layout files
 PRODUCT_COPY_FILES += \
@@ -122,8 +143,13 @@ PRODUCT_COPY_FILES += \
     device/asus/mofd-common/keylayout/Vendor_0b05_Product_17fc.kl:system/usr/keylayout/Vendor_0b05_Product_17fc.kl \
     device/asus/mofd-common/keylayout/Vendor_0b05_Product_1803.kl:system/usr/keylayout/Vendor_0b05_Product_1803.kl
 
+# Keymaster
+PRODUCT_PACKAGES += \
+    android.hardware.keymaster@3.0-impl
+
 # Lights
 PRODUCT_PACKAGES += \
+    android.hardware.light@2.0-impl \
     lights.moorefield
 
 # Media
@@ -132,6 +158,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.widevine.cachesize=16777216 \
     media.stagefright.cache-params=10240/20480/15 \
     media.aac_51_output_enabled=true \
+    persist.intel.isv.vpp = 1 \
+    persist.intel.isv.frc = 1
+
 
 PRODUCT_COPY_FILES += \
     device/asus/mofd-common/media/media_codecs.xml:system/etc/media_codecs.xml \
@@ -141,6 +170,10 @@ PRODUCT_COPY_FILES += \
     device/asus/mofd-common/media/wrs_omxil_components.list:system/etc/wrs_omxil_components.list \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+
+# Default OMX service to non-Treble
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.media.treble_omx=false
 
 # Media: SDK and OMX IL components
 PRODUCT_PACKAGES += \
@@ -189,6 +222,7 @@ PRODUCT_PACKAGES += \
 
 # PowerHAL
 PRODUCT_PACKAGES += \
+    android.hardware.power@1.0-impl \
     power.mofd_v1
 
 # Radio
@@ -227,7 +261,12 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_COPY_FILES += \
-    device/asus/mofd-common/configs/sensor_hal_config_default.xml:system/etc/sensor_hal_config_default.xml
+    device/asus/mofd-common/configs/sensor_hal_config_default.xml:system/etc/sensor_hal_config_default.xml \
+    device/asus/mofd-common/configs/sensors/_hals.conf:system/vendor/etc/sensors/_hals.conf
+
+PRODUCT_PACKAGES += \
+    android.hardware.sensors@1.0-impl \
+    sensors.mofd_v1
 
 # Shims
 PRODUCT_PACKAGES += \
@@ -243,6 +282,10 @@ PRODUCT_PACKAGES += \
 # IMG graphics
 PRODUCT_PACKAGES += \
     hwcomposer.moorefield
+
+# Vibrator
+PRODUCT_PACKAGES += \
+    android.hardware.vibrator@1.0-impl
 
 # pvr
 PRODUCT_PACKAGES += \
@@ -282,6 +325,7 @@ PRODUCT_PACKAGES += \
     libwpa_client \
     lib_driver_cmd_bcmdhd \
     hostapd \
+    wificond \
     wpa_supplicant \
     wpa_supplicant.conf
 
@@ -300,6 +344,10 @@ $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339
 # specific management of sep_policy.conf
 PRODUCT_COPY_FILES += \
     device/asus/mofd-common/sep_policy.conf:system/etc/security/sep_policy.conf
+
+# Vendor Interface Manifest
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/manifest.xml:system/vendor/manifest.xml
 
 # hardware optimizations
 #PRODUCT_PROPERTY_OVERRIDES += \

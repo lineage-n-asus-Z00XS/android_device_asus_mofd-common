@@ -198,6 +198,7 @@ lib/libproperty.so
 lib/libinterface-provider.so
 lib/libmamgr-xmm.so
 lib/libtfa9890.so
+lib/libtinyalsa.so
 lib/libtinyxml.so
 lib/parameter-framework-plugins/Audio/libremoteparameter-subsystem.so
 lib/parameter-framework-plugins/Audio/libtinyalsa_custom-subsystem.so
@@ -835,9 +836,12 @@ etc/firmware/psh.bin.0000.0000.0008.0008.0001.0000
 etc/firmware/psh.bin.0000.0000.0008.0008.0001.0001
 etc/firmware/psh.bin.0000.0000.0008.0008.0002.0001
 etc/firmware/psh.bin.zx550ml
-lib/hw/sensors.mofd_v1.so
+lib/hw/sensors.mofd_v1.so:lib/sensors.vendor.mofd_v1.so
 lib/libcontextarbitor.so
 lib/libsensorhub.so
+
+# Stlport
+lib/libstlport.so
 
 # Thermal
 bin/thermald
